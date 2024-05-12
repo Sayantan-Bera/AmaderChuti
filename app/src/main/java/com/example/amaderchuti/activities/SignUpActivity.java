@@ -73,6 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
                             uploadUserData();
                             Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                         else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
@@ -92,11 +93,12 @@ public class SignUpActivity extends AppCompatActivity {
         //1->author
         //2->admin
         user.setType("1");
-        firebaseDb.collection("users").add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        firebaseDb.collection("users").document(mBinding.emailEditText.getText().toString().trim())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("%%%%", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess(Void unused) {
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
