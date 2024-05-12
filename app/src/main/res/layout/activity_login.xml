@@ -47,7 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:inputType="number"
                 android:textColor="#34303C"
                 android:textColorHint="#46C0C5C4"
                 android:textSize="14sp"
