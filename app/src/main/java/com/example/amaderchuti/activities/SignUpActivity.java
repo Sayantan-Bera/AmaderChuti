@@ -50,6 +50,13 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+        mBinding.signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
         private void registerNewUser()
     {
@@ -61,14 +68,10 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),
-                                            "Registration successful!",
-                                            Toast.LENGTH_LONG)
-                                    .show();
-
+                            Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
                             mBinding.progressbar.setVisibility(View.GONE);
                             uploadUserData();
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
                         else {
