@@ -66,9 +66,9 @@
                     android:layout_height="45dp"
                     android:background="@drawable/sq_c10"
                     android:backgroundTint="#E1ACAC"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:srcCompat="@drawable/eye" />
 
                 <ImageView
@@ -77,10 +77,10 @@
                     android:layout_height="45dp"
                     android:background="@drawable/sq_c10"
                     android:backgroundTint="#E1ACAC"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView_3"
+                    app:layout_constraintStart_toEndOf="@+id/imageView_1"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/edit" />
 
                 <ImageView
@@ -89,11 +89,25 @@
                     android:layout_height="45dp"
                     android:background="@drawable/sq_c10"
                     android:backgroundTint="#E1ACAC"
+                    android:padding="7dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView_4"
+                    app:layout_constraintStart_toEndOf="@+id/imageView_2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/publish" />
+
+                <ImageView
+                    android:id="@+id/imageView_4"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/sq_c10"
+                    android:backgroundTint="#E1ACAC"
                     android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:srcCompat="@drawable/delete" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
