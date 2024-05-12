@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "840569320824",
+    "project_id": "amader-chuti",
+    "storage_bucket": "amader-chuti.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840569320824:android:ea76cb551d5075aff5848d",
+        "android_client_info": {
+          "package_name": "com.example.amaderchuti"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe4Pj7n64S3C7j_g_mzr3aqIiRV37fXTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
