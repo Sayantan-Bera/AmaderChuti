@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:background="@drawable/sq_c10"
-        android:backgroundTint="#FFD0D0"
+        android:backgroundTint="@color/color_1"
         android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

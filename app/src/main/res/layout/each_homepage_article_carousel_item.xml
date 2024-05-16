@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/each_carousel_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_1"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--        article preview image-->
+        <ImageView
+            android:id="@+id/each_carousel_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/sq_c10"
+            android:backgroundTint="@color/green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/amaderchuti_logo" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/each_carousel_item_image">
+
+            <!--article title-->
+            <TextView
+                android:id="@+id/each_carousel_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title of the article"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--            article overview-->
+            <TextView
+                android:id="@+id/each_carousel_item_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This is an overview of the article.
+Here are a few details about the article."
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/each_carousel_item_title" />
+
+            <!--            article credits-->
+            <TextView
+                android:id="@+id/each_carousel_item_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="- Priyankar Sarkar"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/each_carousel_item_overview" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
