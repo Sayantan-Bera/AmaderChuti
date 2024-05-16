@@ -60,7 +60,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
         private void registerNewUser()
     {
-        mBinding.progressbar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(mBinding.emailEditText.getText().toString().trim(), mBinding.confirmPasswordEditText.getText().toString().trim())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
@@ -69,7 +68,6 @@ public class SignUpActivity extends AppCompatActivity {
                     {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
-                            mBinding.progressbar.setVisibility(View.GONE);
                             uploadUserData();
                             Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                             startActivity(intent);
@@ -81,7 +79,6 @@ public class SignUpActivity extends AppCompatActivity {
                             }else {
                                 Toast.makeText(getApplicationContext(), "Registration failed!!" + " Please try again later", Toast.LENGTH_LONG).show();
                             }
-                            mBinding.progressbar.setVisibility(View.GONE);
                         }
                     }
                 });
