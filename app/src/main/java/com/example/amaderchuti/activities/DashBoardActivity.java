@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.tv.TableRequest;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.amaderchuti.R;
@@ -45,6 +47,14 @@ public class DashBoardActivity extends AppCompatActivity {
         mArticlesAdapter=new ArticlesAdapter(this,new ArrayList<String>());
         mBinding.rvArticles.setLayoutManager(new LinearLayoutManager(this));
         mBinding.rvArticles.setAdapter(mArticlesAdapter);
+        mBinding.tvCreateArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(DashBoardActivity.this,WriteArticleActivity.class);
+                intent.putExtra("username",mBinding.tvName.getText().toString().trim());
+                startActivity(intent);
+            }
+        });
     }
     private void getAndSetUserData(){
                 firebaseDb.collection("users").document(userEmail).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

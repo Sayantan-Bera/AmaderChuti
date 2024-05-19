@@ -162,7 +162,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/dashboard_button_2a_1"
+                    android:id="@+id/tvCreateArticle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/sq_c10"
