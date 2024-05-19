@@ -146,11 +146,8 @@ public class WriteArticleActivity extends AppCompatActivity {
     }
 
     private void uploadProductImage(Uri imageFile) {
-        System.out.println("%%%%"+imageFile);
-
         String fileName = UUID.randomUUID().toString() + ".jpg";
         StorageReference refStorage = FirebaseStorage.getInstance().getReference().child("articleImages/" + fileName);
-
         refStorage.putFile(imageFile)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

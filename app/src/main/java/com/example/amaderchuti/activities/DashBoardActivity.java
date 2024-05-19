@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.amaderchuti.R;
 import com.example.amaderchuti.adapters.ArticlesAdapter;
 import com.example.amaderchuti.databinding.ActivityAuthorDashboardBinding;
+import com.example.amaderchuti.models.ArticleModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,6 +23,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     ActivityAuthorDashboardBinding mBinding;
     ArticlesAdapter mArticlesAdapter;
+    ArrayList<ArticleModel> articles=new ArrayList<>();
     private String userEmail;
     FirebaseFirestore firebaseDb;
     @Override
@@ -44,9 +48,7 @@ public class DashBoardActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("userdata", MODE_PRIVATE);
         userEmail = prefs.getString("email", "");
         getAndSetUserData();
-        mArticlesAdapter=new ArticlesAdapter(this,new ArrayList<String>());
-        mBinding.rvArticles.setLayoutManager(new LinearLayoutManager(this));
-        mBinding.rvArticles.setAdapter(mArticlesAdapter);
+        getArticlesByUser();
         mBinding.tvCreateArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +76,35 @@ public class DashBoardActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+    }
+    private void getArticlesByUser(){
+        articles.clear();
+        firebaseDb.collection("articles").whereEqualTo("authorEmail",userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        ArticleModel articleModel = new ArticleModel();
+                        articleModel.setAuthor(document.getData().get("author").toString());
+                        articleModel.setTitle(document.getData().get("title").toString());
+                        articleModel.setAuthorEmail(document.getData().get("authorEmail").toString());
+                        articleModel.setCategory(document.getData().get("category").toString());
+                        articleModel.setOverview(document.getData().get("overview").toString());
+                        articleModel.setStatus(document.getData().get("status").toString());
+                        articleModel.setIsEditable(document.getData().get("isEditable").toString());
+                        articleModel.setImageUrl(document.getData().get("imageUrl").toString());
+                        articleModel.setIsEditorsChoice(document.getData().get("isEditorsChoice").toString());
+                        articles.add(articleModel);
+                    }
+                    mArticlesAdapter=new ArticlesAdapter(DashBoardActivity.this,articles);
+                    mBinding.rvArticles.setLayoutManager(new LinearLayoutManager(DashBoardActivity.this));
+                    mBinding.rvArticles.setAdapter(mArticlesAdapter);
+                } else {
+                    System.out.println("%%%% Failed");
+                }
+            }
+        });
 
     }
 }
