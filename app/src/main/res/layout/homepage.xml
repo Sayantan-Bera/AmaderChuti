@@ -61,12 +61,13 @@
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/oa_view_more"
-                android:layout_width="190dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sq_c10"
                 android:backgroundTint="@color/black"
@@ -89,7 +90,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/artists"
+        android:id="@+id/authors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -97,31 +98,33 @@
         app:layout_constraintTop_toBottomOf="@+id/oa">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/authors_header_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/artists_header"
+                android:id="@+id/authors_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Artists"
+                android:text="Authors"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/artists_view_more"
-                android:layout_width="190dp"
+                android:id="@+id/authors_view_more"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sq_c10"
                 android:backgroundTint="@color/black"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Know more artists"
+                android:text="Know more authors"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold"
@@ -135,6 +138,40 @@
          will repeat in the carousel based on the
          backend data. Separate xml has been made
          for the element-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/each_author_carousel_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/authors_header_parent">
+
+            <ImageView
+                android:id="@+id/author_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/dashboard" />
+
+            <TextView
+                android:id="@+id/author_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Priyankar Sarkar"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/author_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -151,6 +188,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/artists" />
+        app:layout_constraintTop_toBottomOf="@id/authors" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
