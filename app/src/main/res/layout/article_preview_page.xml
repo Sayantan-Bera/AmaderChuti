@@ -34,7 +34,7 @@
                     android:paddingBottom="5dp"
                     android:text="Title of the article"
                     android:textColor="@color/black"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +49,7 @@
                     android:paddingHorizontal="7dp"
                     android:text="xx/xx/xxxx"
                     android:textColor="@color/black"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -57,14 +57,14 @@
                     android:id="@+id/article_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/sq_c10"
                     android:backgroundTint="@color/light_grey"
                     android:paddingHorizontal="7dp"
                     android:paddingVertical="5dp"
                     android:text="Article tag"
                     android:textColor="@color/black"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toEndOf="@id/article_publish_date"
                     app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -77,7 +77,7 @@
                 android:layout_marginTop="10dp"
                 android:text="This is the article overview. Here is a little bit of detail about the article."
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_parent" />
 
@@ -137,7 +137,7 @@
                     android:gravity="end"
                     android:text="Credits - "
                     android:textColor="@color/black"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/author_name"
                     app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:text="Writer Name"
                     android:textColor="@color/black"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -165,7 +165,7 @@
                 android:text="Except a few spelling and word changes, most of the article has been kept the same as the author had written."
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/credits_parent" />
 
