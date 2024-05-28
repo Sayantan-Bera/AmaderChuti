@@ -120,7 +120,13 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/editText" />
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Please give image in 16:9 ratio*"
+                    android:textColor="@color/red"
+                    android:textSize="8sp"/>
                 <ImageView
                     android:id="@+id/imageProduct"
                     android:layout_width="150dp"
