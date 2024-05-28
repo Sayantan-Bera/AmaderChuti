@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -62,8 +63,11 @@ public class LoginActivity extends AppCompatActivity {
                                     @NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(getApplicationContext(), "Login successful!!", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
                                     startActivity(intent);
+                                    SharedPreferences.Editor editor = getSharedPreferences("userdata", MODE_PRIVATE).edit();
+                                    editor.putString("email", mBinding.emailEditText.getText().toString().trim());
+                                    editor.apply();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Login failed! Please enter correct username or password ", Toast.LENGTH_LONG).show();
                                 }
