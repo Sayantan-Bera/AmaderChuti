@@ -1,7 +1,9 @@
 package com.example.amaderchuti.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,17 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.amaderchuti.Utils.CommonMethods;
+import com.example.amaderchuti.activities.WriteArticleActivity;
 import com.example.amaderchuti.databinding.EachDashboardArticleBinding;
 import com.example.amaderchuti.models.ArticleModel;
+import com.example.amaderchuti.models.ArticleModelWithDocId;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyViewHolder> {
     Context context;
-    List<ArticleModel> articles = new ArrayList<>();
+    List<ArticleModelWithDocId> articles = new ArrayList<>();
 
-    public ArticlesAdapter(Context context, List<ArticleModel> articles) {
+    public ArticlesAdapter(Context context, List<ArticleModelWithDocId> articles) {
         this.context = context;
         if (articles != null) {
             this.articles = articles;
@@ -43,7 +47,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         int pos = holder.getAdapterPosition();
-        ArticleModel articleItem = articles.get(pos);
+        ArticleModelWithDocId articleItem = articles.get(pos);
         holder.binding.tvTitle.setText(articleItem.getTitle());
         holder.binding.tvOverview.setText(articleItem.getOverview());
         if (CommonMethods.isNotEmpty(articleItem.getImageUrl())) {
@@ -57,6 +61,14 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
             holder.binding.tvStatus.setText("Published");
         else if ("3".equals(articleItem.getStatus()))
             holder.binding.tvStatus.setText("Rejected");
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, WriteArticleActivity.class);
+                intent.putExtra("singleArticle", articleItem);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

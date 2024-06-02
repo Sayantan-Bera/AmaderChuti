@@ -3,9 +3,10 @@ package com.example.amaderchuti.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ArticleModel implements Serializable {
+public class ArticleModelWithDocId  implements Serializable {
     private String title;
     private String overview;
+    private String docId;
     private String category;
     private String imageUrl;
     private String author;
@@ -94,5 +95,13 @@ public class ArticleModel implements Serializable {
     public void setAuthorEmail(String authorEmail) {
         this.authorEmail = authorEmail;
     }
+    public String getDocId() {
+        return docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
 
 }

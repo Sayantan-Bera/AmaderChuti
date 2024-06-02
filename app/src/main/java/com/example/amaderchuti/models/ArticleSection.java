@@ -1,6 +1,8 @@
 package com.example.amaderchuti.models;
 
-public class ArticleSection {
+import java.io.Serializable;
+
+public class ArticleSection implements Serializable {
 
     private String id;
 

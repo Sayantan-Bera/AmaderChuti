@@ -16,6 +16,7 @@ import com.example.amaderchuti.R;
 import com.example.amaderchuti.adapters.ArticlesAdapter;
 import com.example.amaderchuti.databinding.ActivityAuthorDashboardBinding;
 import com.example.amaderchuti.models.ArticleModel;
+import com.example.amaderchuti.models.ArticleModelWithDocId;
 import com.example.amaderchuti.models.ArticleSection;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,12 +29,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class DashBoardActivity extends AppCompatActivity {
 
     ActivityAuthorDashboardBinding mBinding;
     ArticlesAdapter mArticlesAdapter;
-    ArrayList<ArticleModel> articles=new ArrayList<>();
+    ArrayList<ArticleModelWithDocId> articles=new ArrayList<>();
     private String userEmail;
     FirebaseFirestore firebaseDb;
     @Override
@@ -87,7 +90,8 @@ public class DashBoardActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         System.out.println("%%%%"+document.getId());
-                        ArticleModel articleModel = new ArticleModel();
+                        ArticleModelWithDocId articleModel = new ArticleModelWithDocId();
+                        articleModel.setDocId(document.getId());
                         articleModel.setAuthor(document.getData().get("author").toString());
                         articleModel.setTitle(document.getData().get("title").toString());
                         articleModel.setAuthorEmail(document.getData().get("authorEmail").toString());
@@ -97,15 +101,17 @@ public class DashBoardActivity extends AppCompatActivity {
                         articleModel.setIsEditable(document.getData().get("isEditable").toString());
                         articleModel.setImageUrl(document.getData().get("imageUrl").toString());
                         articleModel.setIsEditorsChoice(document.getData().get("isEditorsChoice").toString());
-                        ArrayList<ArticleSection> arr=new ArrayList<>();
-                        articleModel.setSectionList((ArrayList<ArticleSection>) document.get("sectionList"));
-                        try {
-                            System.out.println("%%%%"+articleModel.getSectionList().get(0));
-                            articles.add(articleModel);
-                        }catch (Exception e){
-                            System.out.println("%%%%"+e);
+                        ArrayList<HashMap> arr=new ArrayList<>();
+                        arr.addAll((Collection<? extends HashMap>) document.get("sectionList"));
+                        ArrayList<ArticleSection> sectionList=new ArrayList<>();
+                        for(HashMap h:arr){
+                            ArticleSection articleSection=new ArticleSection();
+                            articleSection.setId(h.get("id").toString());
+                            articleSection.setContent(h.get("content").toString());
+                            sectionList.add(articleSection);
                         }
-
+                        articleModel.setSectionList(sectionList);
+                        articles.add(articleModel);
                     }
                     mArticlesAdapter=new ArticlesAdapter(DashBoardActivity.this,articles);
                     mBinding.rvArticles.setLayoutManager(new LinearLayoutManager(DashBoardActivity.this));

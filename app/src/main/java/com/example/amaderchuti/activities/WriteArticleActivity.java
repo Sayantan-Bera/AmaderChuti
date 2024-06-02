@@ -11,22 +11,22 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.amaderchuti.R;
 import com.example.amaderchuti.Utils.CommonMethods;
 import com.example.amaderchuti.adapters.ArticleSectionAdapter;
 import com.example.amaderchuti.databinding.ActivityWriteArticleBinding;
 import com.example.amaderchuti.models.ArticleModel;
+import com.example.amaderchuti.models.ArticleModelWithDocId;
 import com.example.amaderchuti.models.ArticleSection;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +45,7 @@ public class WriteArticleActivity extends AppCompatActivity {
     private ActivityWriteArticleBinding mBinding;
     FirebaseFirestore firebaseDb;
     AlertDialog loading;
+    private ArticleModelWithDocId articleModelFromPreviousScreen;
     private ArticleSectionAdapter articleSectionAdapter;
     public ArrayList<ArticleSection> sectionList = new ArrayList<>();
     ActivityResultLauncher<Intent> launchGalleryActivity = registerForActivityResult(
@@ -79,8 +80,10 @@ public class WriteArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_write_article);
         authorName = getIntent().getStringExtra("username");
+        articleModelFromPreviousScreen = (ArticleModelWithDocId) getIntent().getSerializableExtra("singleArticle");
         SharedPreferences prefs = getSharedPreferences("userdata", MODE_PRIVATE);
         userEmail = prefs.getString("email", "");
+
         mBinding.selectCoverImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,18 +97,25 @@ public class WriteArticleActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseDb= FirebaseFirestore.getInstance();
+        firebaseDb = FirebaseFirestore.getInstance();
         setUpCategorySpinner();
         mBinding.tvAuthor.setText("Author " + authorName);
         setUpRecyclerView();
-        loading=new AlertDialog.Builder(this)
+        if (articleModelFromPreviousScreen != null) {
+            setUpEditData();
+        }
+        loading = new AlertDialog.Builder(this)
                 .setMessage("Loading...")
                 .setCancelable(false).create();
         mBinding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isValid()) {
-                    storeData();
+                    if(articleModelFromPreviousScreen==null) {
+                        storeData();
+                    }else{
+                        updateData();
+                    }
                 }
             }
         });
@@ -120,7 +130,7 @@ public class WriteArticleActivity extends AppCompatActivity {
         mBinding.btText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArticleSection sectionItem=new ArticleSection();
+                ArticleSection sectionItem = new ArticleSection();
                 sectionItem.setId("1");
                 sectionItem.setContent("");
                 sectionList.add(sectionItem);
@@ -129,15 +139,29 @@ public class WriteArticleActivity extends AppCompatActivity {
         });
     }
 
+    private void setUpEditData() {
+        mBinding.tvAuthor.setText(articleModelFromPreviousScreen.getAuthor());
+        mBinding.titleEditText.setText(articleModelFromPreviousScreen.getTitle());
+        mBinding.overviewEditText.setText(articleModelFromPreviousScreen.getOverview());
+        mBinding.imageProduct.setVisibility(View.VISIBLE);
+        coverImageUrl=articleModelFromPreviousScreen.getImageUrl();
+        Glide.with(this).load(coverImageUrl).into(mBinding.imageProduct);
+        sectionList.addAll(articleModelFromPreviousScreen.getSectionList());
+        setUpRecyclerView();
+    }
+
     private void setUpCategorySpinner() {
         ArrayList<String> categoryList = new ArrayList<>();
-        categoryList.add("Select Category");
+        categoryList.add("Select Category *");
         categoryList.add("Adventure");
         categoryList.add("Hill Station");
         categoryList.add("Sea Beach");
         categoryList.add("Remote Areas");
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.dropdown_item_layout, categoryList);
         mBinding.spCategory.setAdapter(adapter);
+        if (articleModelFromPreviousScreen != null) {
+            mBinding.spCategory.setSelection(adapter.getPosition(articleModelFromPreviousScreen.getCategory()));
+        }
     }
 
     private boolean isValid() {
@@ -151,27 +175,28 @@ public class WriteArticleActivity extends AppCompatActivity {
         } else if (mBinding.spCategory.getSelectedItem().toString().equals("Select Category")) {
             Toast.makeText(this, "Please add category", Toast.LENGTH_LONG).show();
             isValid = false;
-        } else if (coverImageUrl==null) {
+        } else if (coverImageUrl == null) {
             Toast.makeText(this, "Please add cover image", Toast.LENGTH_LONG).show();
             isValid = false;
         }
         return isValid;
     }
-    public void setUpRecyclerView(){
-        if(sectionList.size()>0){
+
+    public void setUpRecyclerView() {
+        if (sectionList.size() > 0) {
             mBinding.rvSections.setVisibility(View.VISIBLE);
             mBinding.tvAddWhenNoData.setVisibility(View.GONE);
-        }else{
+        } else {
             mBinding.rvSections.setVisibility(View.GONE);
             mBinding.tvAddWhenNoData.setVisibility(View.VISIBLE);
         }
-        articleSectionAdapter=new ArticleSectionAdapter(this);
+        articleSectionAdapter = new ArticleSectionAdapter(this);
         mBinding.rvSections.setLayoutManager(new LinearLayoutManager(WriteArticleActivity.this));
         mBinding.rvSections.setAdapter(articleSectionAdapter);
     }
 
     private void storeData() {
-        CollectionReference db=firebaseDb.collection("users");
+        CollectionReference db = firebaseDb.collection("users");
         String key = db.document().getId();
         ArticleModel articleModel = new ArticleModel();
         articleModel.setAuthor(authorName.substring(1));
@@ -200,6 +225,33 @@ public class WriteArticleActivity extends AppCompatActivity {
                 });
     }
 
+    private void updateData() {
+        ArticleModel articleModel = new ArticleModel();
+        articleModel.setAuthor(articleModelFromPreviousScreen.getAuthor());
+        articleModel.setTitle(mBinding.titleEditText.getText().toString().trim());
+        articleModel.setAuthorEmail(articleModelFromPreviousScreen.getAuthorEmail());
+        articleModel.setCategory(mBinding.spCategory.getSelectedItem().toString());
+        articleModel.setOverview(mBinding.overviewEditText.getText().toString().trim());
+        articleModel.setStatus("0");//0 means not published
+        articleModel.setIsEditable("0");//0 means editable
+        articleModel.setImageUrl(coverImageUrl);
+        articleModel.setIsEditorsChoice("0");//0 means not editors choice
+        articleModel.setSectionList(sectionList);
+        firebaseDb.collection("articles").document(articleModelFromPreviousScreen.getDocId()).set(articleModel)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(WriteArticleActivity.this, "Article Saved Successfully", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("%%%%", "Error adding document", e);
+                    }
+                });
+    }
     private void uploadCoverImage(Uri imageFile) {
         loading.show();
         String fileName = UUID.randomUUID().toString() + ".jpg";
@@ -225,6 +277,7 @@ public class WriteArticleActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void uploadArticleImages(Uri imageFile) {
         loading.show();
         String fileName = UUID.randomUUID().toString() + ".jpg";
@@ -236,7 +289,7 @@ public class WriteArticleActivity extends AppCompatActivity {
                         taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri image) {
-                                ArticleSection sectionItem=new ArticleSection();
+                                ArticleSection sectionItem = new ArticleSection();
                                 sectionItem.setId("2");
                                 sectionItem.setContent(image.toString());
                                 sectionList.add(sectionItem);
