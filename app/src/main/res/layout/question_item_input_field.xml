@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/llStaticRemarksContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etAnswerInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/text_view_background"
+            android:gravity="start"
+            android:hint="Type here..."
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:minHeight="70dp"
+            android:textSize="13sp"
+            android:textColor="@color/black"
+            android:textColorHint="#9c9c9c"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+</layout>

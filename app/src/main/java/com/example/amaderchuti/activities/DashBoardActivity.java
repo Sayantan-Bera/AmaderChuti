@@ -16,6 +16,7 @@ import com.example.amaderchuti.R;
 import com.example.amaderchuti.adapters.ArticlesAdapter;
 import com.example.amaderchuti.databinding.ActivityAuthorDashboardBinding;
 import com.example.amaderchuti.models.ArticleModel;
+import com.example.amaderchuti.models.ArticleSection;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -85,6 +86,7 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
+                        System.out.println("%%%%"+document.getId());
                         ArticleModel articleModel = new ArticleModel();
                         articleModel.setAuthor(document.getData().get("author").toString());
                         articleModel.setTitle(document.getData().get("title").toString());
@@ -95,7 +97,15 @@ public class DashBoardActivity extends AppCompatActivity {
                         articleModel.setIsEditable(document.getData().get("isEditable").toString());
                         articleModel.setImageUrl(document.getData().get("imageUrl").toString());
                         articleModel.setIsEditorsChoice(document.getData().get("isEditorsChoice").toString());
-                        articles.add(articleModel);
+                        ArrayList<ArticleSection> arr=new ArrayList<>();
+                        articleModel.setSectionList((ArrayList<ArticleSection>) document.get("sectionList"));
+                        try {
+                            System.out.println("%%%%"+articleModel.getSectionList().get(0));
+                            articles.add(articleModel);
+                        }catch (Exception e){
+                            System.out.println("%%%%"+e);
+                        }
+
                     }
                     mArticlesAdapter=new ArticlesAdapter(DashBoardActivity.this,articles);
                     mBinding.rvArticles.setLayoutManager(new LinearLayoutManager(DashBoardActivity.this));

@@ -1,4 +1,7 @@
 package com.example.amaderchuti.models;
+
+import java.util.ArrayList;
+
 public class ArticleModel {
     private String title;
     private String overview;
@@ -9,6 +12,15 @@ public class ArticleModel {
     private String isEditorsChoice;
     private String isEditable;
     private String authorEmail;
+
+    private ArrayList<ArticleSection> sectionList;
+    public ArrayList<ArticleSection> getSectionList() {
+        return sectionList;
+    }
+
+    public void setSectionList(ArrayList<ArticleSection> sectionList) {
+        this.sectionList = sectionList;
+    }
 
     public String getTitle() {
         return title;

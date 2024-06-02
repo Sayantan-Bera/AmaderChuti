@@ -5,10 +5,13 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -21,8 +24,10 @@ import android.widget.Toast;
 
 import com.example.amaderchuti.R;
 import com.example.amaderchuti.Utils.CommonMethods;
+import com.example.amaderchuti.adapters.ArticleSectionAdapter;
 import com.example.amaderchuti.databinding.ActivityWriteArticleBinding;
 import com.example.amaderchuti.models.ArticleModel;
+import com.example.amaderchuti.models.ArticleSection;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,6 +44,9 @@ public class WriteArticleActivity extends AppCompatActivity {
     private String authorName, coverImageUrl, userEmail;
     private ActivityWriteArticleBinding mBinding;
     FirebaseFirestore firebaseDb;
+    AlertDialog loading;
+    private ArticleSectionAdapter articleSectionAdapter;
+    public ArrayList<ArticleSection> sectionList = new ArrayList<>();
     ActivityResultLauncher<Intent> launchGalleryActivity = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -48,7 +56,19 @@ public class WriteArticleActivity extends AppCompatActivity {
                         Uri coverImage = result.getData().getData();
                         mBinding.imageProduct.setImageURI(coverImage);
                         mBinding.imageProduct.setVisibility(View.VISIBLE);
-                        uploadProductImage(coverImage);
+                        uploadCoverImage(coverImage);
+                    }
+                }
+            }
+    );
+    ActivityResultLauncher<Intent> launchGalleryActivityForArticleImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Uri articleImage = result.getData().getData();
+                        uploadArticleImages(articleImage);
                     }
                 }
             }
@@ -77,12 +97,34 @@ public class WriteArticleActivity extends AppCompatActivity {
         firebaseDb= FirebaseFirestore.getInstance();
         setUpCategorySpinner();
         mBinding.tvAuthor.setText("Author " + authorName);
+        setUpRecyclerView();
+        loading=new AlertDialog.Builder(this)
+                .setMessage("Loading...")
+                .setCancelable(false).create();
         mBinding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isValid()) {
                     storeData();
                 }
+            }
+        });
+        mBinding.btAddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                launchGalleryActivityForArticleImage.launch(intent);
+            }
+        });
+        mBinding.btText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArticleSection sectionItem=new ArticleSection();
+                sectionItem.setId("1");
+                sectionItem.setContent("");
+                sectionList.add(sectionItem);
+                setUpRecyclerView();
             }
         });
     }
@@ -115,6 +157,18 @@ public class WriteArticleActivity extends AppCompatActivity {
         }
         return isValid;
     }
+    public void setUpRecyclerView(){
+        if(sectionList.size()>0){
+            mBinding.rvSections.setVisibility(View.VISIBLE);
+            mBinding.tvAddWhenNoData.setVisibility(View.GONE);
+        }else{
+            mBinding.rvSections.setVisibility(View.GONE);
+            mBinding.tvAddWhenNoData.setVisibility(View.VISIBLE);
+        }
+        articleSectionAdapter=new ArticleSectionAdapter(this);
+        mBinding.rvSections.setLayoutManager(new LinearLayoutManager(WriteArticleActivity.this));
+        mBinding.rvSections.setAdapter(articleSectionAdapter);
+    }
 
     private void storeData() {
         CollectionReference db=firebaseDb.collection("users");
@@ -129,6 +183,7 @@ public class WriteArticleActivity extends AppCompatActivity {
         articleModel.setIsEditable("0");//0 means editable
         articleModel.setImageUrl(coverImageUrl);
         articleModel.setIsEditorsChoice("0");//0 means not editors choice
+        articleModel.setSectionList(sectionList);
         firebaseDb.collection("articles").document(key).set(articleModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -145,7 +200,8 @@ public class WriteArticleActivity extends AppCompatActivity {
                 });
     }
 
-    private void uploadProductImage(Uri imageFile) {
+    private void uploadCoverImage(Uri imageFile) {
+        loading.show();
         String fileName = UUID.randomUUID().toString() + ".jpg";
         StorageReference refStorage = FirebaseStorage.getInstance().getReference().child("articleImages/" + fileName);
         refStorage.putFile(imageFile)
@@ -155,6 +211,7 @@ public class WriteArticleActivity extends AppCompatActivity {
                         taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri image) {
+                                loading.dismiss();
                                 coverImageUrl = image.toString();
                             }
                         });
@@ -163,6 +220,36 @@ public class WriteArticleActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        loading.dismiss();
+                        Toast.makeText(WriteArticleActivity.this, "Something went wrong with storage", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+    private void uploadArticleImages(Uri imageFile) {
+        loading.show();
+        String fileName = UUID.randomUUID().toString() + ".jpg";
+        StorageReference refStorage = FirebaseStorage.getInstance().getReference().child("articleBodyImages/" + fileName);
+        refStorage.putFile(imageFile)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri image) {
+                                ArticleSection sectionItem=new ArticleSection();
+                                sectionItem.setId("2");
+                                sectionItem.setContent(image.toString());
+                                sectionList.add(sectionItem);
+                                setUpRecyclerView();
+                                loading.dismiss();
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        loading.dismiss();
                         Toast.makeText(WriteArticleActivity.this, "Something went wrong with storage", Toast.LENGTH_LONG).show();
                     }
                 });
