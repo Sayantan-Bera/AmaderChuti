@@ -22,8 +22,10 @@ public class ArticleSectionAdapter extends RecyclerView.Adapter {
 
     WriteArticleActivity mBase;
     private final int INPUT = 1,IMAGE=2;
-    public ArticleSectionAdapter(WriteArticleActivity mBase) {
+    private final boolean isEditable;
+    public ArticleSectionAdapter(WriteArticleActivity mBase,boolean isEditable) {
         this.mBase = mBase;
+        this.isEditable=isEditable;
     }
 
     @NonNull
@@ -74,7 +76,10 @@ public class ArticleSectionAdapter extends RecyclerView.Adapter {
 
         public TextInputViewHolder(@NonNull QuestionItemInputFieldBinding questionItemInputFieldBinding) {
             super(questionItemInputFieldBinding.getRoot());
-            this.questionItemInputFieldBinding = questionItemInputFieldBinding;;
+            this.questionItemInputFieldBinding = questionItemInputFieldBinding;
+            if(!isEditable){
+                questionItemInputFieldBinding.etAnswerInput.setEnabled(false);
+            }
         }
 
         public void textInputBind(ArticleSection question) {

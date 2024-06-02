@@ -8,7 +8,7 @@
     android:textStyle="bold"
     android:textSize="12sp"
     android:text="bold"
-    android:padding="5dp"
+    android:padding="8dp"
     >
 
 </TextView>

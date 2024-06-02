@@ -1,10 +1,12 @@
 package com.example.amaderchuti.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.tv.TableRequest;
@@ -43,6 +45,10 @@ public class DashBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding= DataBindingUtil.setContentView(this,R.layout.activity_author_dashboard);
+        if(FirebaseAuth.getInstance().getCurrentUser()==null){
+            startActivity(new Intent(this,LoginActivity.class));
+            finish();
+        }
     }
 
     @Override
@@ -53,6 +59,26 @@ public class DashBoardActivity extends AppCompatActivity {
         userEmail = prefs.getString("email", "");
         getAndSetUserData();
         getArticlesByUser();
+        mBinding.ivLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DashBoardActivity.this);
+                builder.setMessage("Are you sure you want to Log Out ? ");
+                builder.setTitle("Attention !");
+                builder.setCancelable(false);
+
+                builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(DashBoardActivity.this,LoginActivity.class));
+                    finish();
+                });
+                builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    dialog.cancel();
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
         mBinding.tvCreateArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

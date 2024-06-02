@@ -5,4 +5,7 @@
     <color name="green">#008000</color>
     <color name="light_grey">#F1F3F4</color>
     <color name="red">#FF0000</color>
+    <color name="orange">#FF9800</color>
+    <color name="brown">#EB801603</color>
+    <color name="darkBlue">#EB0B0033</color>
 </resources>

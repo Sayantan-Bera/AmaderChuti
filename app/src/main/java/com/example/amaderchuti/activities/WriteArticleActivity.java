@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import com.example.amaderchuti.models.ArticleModelWithDocId;
 import com.example.amaderchuti.models.ArticleSection;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,6 +49,7 @@ public class WriteArticleActivity extends AppCompatActivity {
     AlertDialog loading;
     private ArticleModelWithDocId articleModelFromPreviousScreen;
     private ArticleSectionAdapter articleSectionAdapter;
+    private boolean isSubmit=false,isEditable=true;
     public ArrayList<ArticleSection> sectionList = new ArrayList<>();
     ActivityResultLauncher<Intent> launchGalleryActivity = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -119,6 +122,31 @@ public class WriteArticleActivity extends AppCompatActivity {
                 }
             }
         });
+        mBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(WriteArticleActivity.this);
+                    builder.setMessage("Do you want to submit article ? ");
+                    builder.setTitle("Attention !");
+                    builder.setCancelable(false);
+
+                    builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        isSubmit=true;
+                        if(articleModelFromPreviousScreen==null) {
+                            storeData();
+                        }else{
+                            updateData();
+                        }
+                    });
+                    builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        dialog.cancel();
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            }
+        });
         mBinding.btAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +168,18 @@ public class WriteArticleActivity extends AppCompatActivity {
     }
 
     private void setUpEditData() {
+        if(!"0".equalsIgnoreCase(articleModelFromPreviousScreen.getStatus())){
+            isEditable=false;
+            mBinding.btnSave.setVisibility(View.GONE);
+            mBinding.btnSubmit.setVisibility(View.GONE);
+            mBinding.titleEditText.setEnabled(false);
+            mBinding.titleEditText.setEnabled(false);
+            mBinding.overviewEditText.setEnabled(false);
+            mBinding.selectCoverImage.setVisibility(View.GONE);
+            mBinding.spCategory.setEnabled(false);
+            mBinding.btText.setVisibility(View.GONE);
+            mBinding.btAddImage.setVisibility(View.GONE);
+        }
         mBinding.tvAuthor.setText(articleModelFromPreviousScreen.getAuthor());
         mBinding.titleEditText.setText(articleModelFromPreviousScreen.getTitle());
         mBinding.overviewEditText.setText(articleModelFromPreviousScreen.getOverview());
@@ -190,7 +230,7 @@ public class WriteArticleActivity extends AppCompatActivity {
             mBinding.rvSections.setVisibility(View.GONE);
             mBinding.tvAddWhenNoData.setVisibility(View.VISIBLE);
         }
-        articleSectionAdapter = new ArticleSectionAdapter(this);
+        articleSectionAdapter = new ArticleSectionAdapter(this,isEditable);
         mBinding.rvSections.setLayoutManager(new LinearLayoutManager(WriteArticleActivity.this));
         mBinding.rvSections.setAdapter(articleSectionAdapter);
     }
@@ -204,7 +244,11 @@ public class WriteArticleActivity extends AppCompatActivity {
         articleModel.setAuthorEmail(userEmail);
         articleModel.setCategory(mBinding.spCategory.getSelectedItem().toString());
         articleModel.setOverview(mBinding.overviewEditText.getText().toString().trim());
-        articleModel.setStatus("0");//0 means not published
+        if(isSubmit){
+            articleModel.setStatus("1");//1 means submitted
+        }else {
+            articleModel.setStatus("0");//0 means not published
+        }
         articleModel.setIsEditable("0");//0 means editable
         articleModel.setImageUrl(coverImageUrl);
         articleModel.setIsEditorsChoice("0");//0 means not editors choice
@@ -232,16 +276,20 @@ public class WriteArticleActivity extends AppCompatActivity {
         articleModel.setAuthorEmail(articleModelFromPreviousScreen.getAuthorEmail());
         articleModel.setCategory(mBinding.spCategory.getSelectedItem().toString());
         articleModel.setOverview(mBinding.overviewEditText.getText().toString().trim());
-        articleModel.setStatus("0");//0 means not published
-        articleModel.setIsEditable("0");//0 means editable
+        if(isSubmit){
+            articleModel.setStatus("1");//1 means submitted
+        }else {
+            articleModel.setStatus(articleModelFromPreviousScreen.getStatus());
+        }
+        articleModel.setIsEditable(articleModelFromPreviousScreen.getIsEditable());
         articleModel.setImageUrl(coverImageUrl);
-        articleModel.setIsEditorsChoice("0");//0 means not editors choice
+        articleModel.setIsEditorsChoice(articleModelFromPreviousScreen.getIsEditorsChoice());
         articleModel.setSectionList(sectionList);
         firebaseDb.collection("articles").document(articleModelFromPreviousScreen.getDocId()).set(articleModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(WriteArticleActivity.this, "Article Saved Successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(WriteArticleActivity.this, "Article Updated Successfully", Toast.LENGTH_LONG).show();
                         finish();
                     }
                 })

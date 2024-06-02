@@ -2,6 +2,7 @@ package com.example.amaderchuti.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,14 +54,22 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
         if (CommonMethods.isNotEmpty(articleItem.getImageUrl())) {
             Glide.with(context).load(articleItem.getImageUrl()).into(holder.binding.ivArticleCover);
         }
-        if ("0".equals(articleItem.getStatus()))
+        if ("0".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Not Submitted");
-        else if ("1".equals(articleItem.getStatus()))
+            holder.binding.tvStatus.setBackgroundColor(Color.parseColor("#f4a261"));
+        }
+        else if ("1".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Submitted");
-        else if ("2".equals(articleItem.getStatus()))
+            holder.binding.tvStatus.setBackgroundColor(Color.parseColor("#22577a"));
+        }
+        else if ("2".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Published");
-        else if ("3".equals(articleItem.getStatus()))
+            holder.binding.tvStatus.setBackgroundColor(Color.parseColor("#2a9d8f"));
+        }
+        else if ("3".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Rejected");
+            holder.binding.tvStatus.setBackgroundColor(Color.parseColor("#e76f51"));
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

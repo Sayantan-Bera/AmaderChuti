@@ -9,23 +9,37 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="10dp"
         tools:context=".activities.WriteArticleActivity">
-
-        <ScrollView
+        <TextView
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Write Article"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:background="@color/darkBlue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
+                android:layout_margin="10dp"
                 android:orientation="vertical">
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editText"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -110,9 +124,9 @@
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="12sp"
                         android:text="by Sayantan"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <Button
@@ -125,77 +139,104 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/editText" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="*Please give image in 16:9 ratio"
                     android:textColor="@color/red"
-                    android:textSize="8sp"/>
+                    android:textSize="8sp" />
+
                 <ImageView
                     android:id="@+id/imageProduct"
                     android:layout_width="300dp"
                     android:layout_height="100dp"
+                    android:layout_marginTop="5dp"
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:visibility="gone" />
+
                 <View
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/black"
-                    />
+                    android:layout_marginTop="5dp"
+                    android:background="@color/black" />
+
                 <TextView
                     android:id="@+id/tvAddWhenNoData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add text/images !!"
-                    android:gravity="center"
                     android:layout_marginVertical="30dp"
-                    android:visibility="gone"
-                    android:textStyle="bold"/>
+                    android:gravity="center"
+                    android:text="Add text/images !!"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvSections"
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+
                 <View
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/black"
-                    />
-                <Button
-                    android:id="@+id/btnSave"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:backgroundTint="@color/green"
-                    android:text="SAVE"
-                    android:textColor="@color/white"
-                    app:layout_constraintTop_toBottomOf="@+id/editText" />
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/btnSave"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/orange"
+                        android:text="Save"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/green"
+                        android:text="Submit"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btAddImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/photo_vector"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btAddImage"
-            android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/text_vector"
-            />
+            app:layout_constraintBottom_toTopOf="@+id/btAddImage"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
