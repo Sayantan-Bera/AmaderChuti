@@ -242,6 +242,7 @@ public class WriteArticleActivity extends AppCompatActivity {
     }
 
     private void storeData() {
+        loading.show();
         CollectionReference db = firebaseDb.collection("users");
         String key = db.document().getId();
         ArticleModel articleModel = new ArticleModel();
@@ -267,6 +268,7 @@ public class WriteArticleActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        loading.dismiss();
                         Toast.makeText(WriteArticleActivity.this, "Article Saved Successfully", Toast.LENGTH_LONG).show();
                         finish();
                     }
@@ -280,6 +282,7 @@ public class WriteArticleActivity extends AppCompatActivity {
     }
 
     private void updateData() {
+        loading.show();
         ArticleModel articleModel = new ArticleModel();
         articleModel.setAuthor(articleModelFromPreviousScreen.getAuthor());
         articleModel.setTitle(mBinding.titleEditText.getText().toString().trim());
@@ -303,6 +306,7 @@ public class WriteArticleActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        loading.dismiss();
                         Toast.makeText(WriteArticleActivity.this, "Article Updated Successfully", Toast.LENGTH_LONG).show();
                         finish();
                     }
