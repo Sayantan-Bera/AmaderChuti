@@ -215,7 +215,7 @@ public class WriteArticleActivity extends AppCompatActivity {
         } else if (!CommonMethods.isNotEmpty(mBinding.overviewEditText.getText().toString().trim())) {
             mBinding.overviewEditText.setError("Please Enter Overview");
             isValid = false;
-        } else if (mBinding.spCategory.getSelectedItem().toString().equals("Select Category")) {
+        } else if (mBinding.spCategory.getSelectedItem().toString().equals("Select Category *")) {
             Toast.makeText(this, "Please add category", Toast.LENGTH_LONG).show();
             isValid = false;
         } else if (coverImageUrl == null) {

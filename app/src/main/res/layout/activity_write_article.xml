@@ -43,7 +43,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_header_bottom_rounded_new"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:paddingBottom="10dp">
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editText"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -110,8 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/sq_c10"
-                    android:backgroundTint="@color/white"
+                    android:background="@drawable/text_view_background"
                     android:weightSum="2">
 
                     <Spinner
@@ -149,7 +152,7 @@
                     android:drawablePadding="5dp"
                     android:layout_gravity="center"
                     android:textAllCaps="false"
-                    android:textColor="@color/brown"
+                    android:textColor="@color/red"
                     android:drawableStart="@drawable/add_photo_vector"
                     android:padding="5dp"
                     android:textSize="14sp"
@@ -164,7 +167,6 @@
                     android:layout_marginTop="5dp"
                     android:text="*Please give image in 16:9 ratio"
                     android:textColor="@color/red"
-                    android:layout_marginBottom="5dp"
                     android:textSize="8sp" />
 
                 <ImageView
@@ -172,6 +174,7 @@
                     android:layout_width="300dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
                     android:visibility="gone" />
                 </LinearLayout>
 
@@ -191,13 +194,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="5dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -4,8 +4,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/sq_c10"
-        android:backgroundTint="@color/light_grey"
+        android:background="@drawable/text_view_background"
         android:layout_marginVertical="4dp"
         android:layout_marginHorizontal="8dp">
 
@@ -14,6 +13,7 @@
             android:layout_width="300dp"
             android:layout_height="120dp"
             android:paddingHorizontal="50dp"
+            android:paddingVertical="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
