@@ -60,7 +60,7 @@ public class DashBoardActivity extends AppCompatActivity {
         userEmail = prefs.getString("email", "");
         getAndSetUserData();
         getArticlesByUser();
-        mBinding.ivLogout.setOnClickListener(new View.OnClickListener() {
+        mBinding.tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DashBoardActivity.this);

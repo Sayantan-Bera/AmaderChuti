@@ -56,21 +56,26 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
         if (CommonMethods.isNotEmpty(articleItem.getImageUrl())) {
             Glide.with(context).load(articleItem.getImageUrl()).into(holder.binding.ivArticleCover);
         }
+        holder.binding.tvAuthorValue.setText(articleItem.getAuthor());
+        String[] date = articleItem.getDate().split("-");
+        holder.binding.txtMPDate.setText(date[0]);
+        holder.binding.txtMPDateMonthYear.setText(CommonMethods.getFormatChangedDate(articleItem.getDate(), "dd-MM-yyyy", "MMM").toUpperCase() + "\n" + date[2]);
+        holder.binding.txtMPDate.setVisibility(View.VISIBLE);
         if ("0".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Not Submitted");
-            ViewCompat.setBackgroundTintList(holder.binding.tvStatus, ColorStateList.valueOf(Color.parseColor("#f4a261")));
+            holder.binding.tvStatus.setTextColor(Color.parseColor("#f4a261"));
         }
         else if ("1".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Submitted");
-            ViewCompat.setBackgroundTintList(holder.binding.tvStatus, ColorStateList.valueOf(Color.parseColor("#22577a")));
+            holder.binding.tvStatus.setTextColor(Color.parseColor("#22577a"));
         }
         else if ("2".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Published");
-            ViewCompat.setBackgroundTintList(holder.binding.tvStatus, ColorStateList.valueOf(Color.parseColor("#2a9d8f")));
+            holder.binding.tvStatus.setTextColor(Color.parseColor("#2a9d8f"));
         }
         else if ("3".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Rejected");
-            ViewCompat.setBackgroundTintList(holder.binding.tvStatus, ColorStateList.valueOf(Color.parseColor("#e76f51")));
+            holder.binding.tvStatus.setTextColor(Color.parseColor("#e76f51"));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
