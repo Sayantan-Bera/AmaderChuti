@@ -39,7 +39,11 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_header_bottom_rounded_new"
+                    android:orientation="vertical">
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editText"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -106,7 +110,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/text_view_background"
+                    android:background="@drawable/sq_c10"
+                    android:backgroundTint="@color/white"
                     android:weightSum="2">
 
                     <Spinner
@@ -124,7 +129,7 @@
                     <TextView
                         android:id="@+id/tvAuthor"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
@@ -159,6 +164,7 @@
                     android:layout_marginTop="5dp"
                     android:text="*Please give image in 16:9 ratio"
                     android:textColor="@color/red"
+                    android:layout_marginBottom="5dp"
                     android:textSize="8sp" />
 
                 <ImageView
@@ -166,15 +172,8 @@
                     android:layout_width="300dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
                     android:visibility="gone" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/black" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvAddWhenNoData"
