@@ -39,15 +39,17 @@ public class DashBoardActivity extends AppCompatActivity {
 
     ActivityAuthorDashboardBinding mBinding;
     ArticlesAdapter mArticlesAdapter;
-    ArrayList<ArticleModelWithDocId> articles=new ArrayList<>();
+    ArrayList<ArticleModelWithDocId> articles = new ArrayList<>();
     private String userEmail;
+    private AlertDialog loading;
     FirebaseFirestore firebaseDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding= DataBindingUtil.setContentView(this,R.layout.activity_author_dashboard);
-        if(FirebaseAuth.getInstance().getCurrentUser()==null){
-            startActivity(new Intent(this,LoginActivity.class));
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_author_dashboard);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
     }
@@ -55,9 +57,10 @@ public class DashBoardActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseDb= FirebaseFirestore.getInstance();
+        firebaseDb = FirebaseFirestore.getInstance();
         SharedPreferences prefs = getSharedPreferences("userdata", MODE_PRIVATE);
         userEmail = prefs.getString("email", "");
+        loading = new AlertDialog.Builder(this).setMessage("Loading...").setCancelable(false).create();
         getAndSetUserData();
         getArticlesByUser();
         mBinding.tvLogout.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +73,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
                 builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
                     FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(DashBoardActivity.this,LoginActivity.class));
+                    startActivity(new Intent(DashBoardActivity.this, LoginActivity.class));
                     finish();
                 });
                 builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
@@ -83,35 +86,41 @@ public class DashBoardActivity extends AppCompatActivity {
         mBinding.tvCreateArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(DashBoardActivity.this,WriteArticleActivity.class);
-                intent.putExtra("username",mBinding.tvName.getText().toString().trim());
+                Intent intent = new Intent(DashBoardActivity.this, WriteArticleActivity.class);
+                intent.putExtra("username", mBinding.tvName.getText().toString().trim());
                 startActivity(intent);
             }
         });
     }
-    private void getAndSetUserData(){
-                firebaseDb.collection("users").document(userEmail).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                               mBinding.tvName.setText(": "+document.getString("name"));
-                               mBinding.tvEmail.setText(": "+document.getString("email"));
-                               mBinding.tvDesignation.setText(": "+("1".equals(document.getString("type"))?"Author":"Editor"));
-                            } else {
-                                Toast.makeText(DashBoardActivity.this,"No data found",Toast.LENGTH_SHORT);
-                            }
-                        } else {
-                            Toast.makeText(DashBoardActivity.this,"Failed to load data",Toast.LENGTH_SHORT);
-                        }
+
+    private void getAndSetUserData() {
+        loading.show();
+        firebaseDb.collection("users").document(userEmail).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        mBinding.tvName.setText(": " + document.getString("name"));
+                        mBinding.tvEmail.setText(": " + document.getString("email"));
+                        mBinding.tvDesignation.setText(": " + ("1".equals(document.getString("type")) ? "Author" : "Editor"));
+                        loading.dismiss();
+                    } else {
+                        Toast.makeText(DashBoardActivity.this, "No data found", Toast.LENGTH_SHORT);
+                        loading.dismiss();
                     }
-                });
+                } else {
+                    loading.dismiss();
+                    Toast.makeText(DashBoardActivity.this, "Failed to load data", Toast.LENGTH_SHORT);
+                }
+            }
+        });
 
     }
-    private void getArticlesByUser(){
+
+    private void getArticlesByUser() {
         articles.clear();
-        firebaseDb.collection("articles").whereEqualTo("authorEmail",userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firebaseDb.collection("articles").whereEqualTo("authorEmail", userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -129,11 +138,11 @@ public class DashBoardActivity extends AppCompatActivity {
                         articleModel.setPostTime(document.getData().get("postTime").toString());
                         articleModel.setIsEditorsChoice(document.getData().get("isEditorsChoice").toString());
                         articleModel.setDate(document.getData().get("date").toString());
-                        ArrayList<HashMap> arr=new ArrayList<>();
+                        ArrayList<HashMap> arr = new ArrayList<>();
                         arr.addAll((Collection<? extends HashMap>) document.get("sectionList"));
-                        ArrayList<ArticleSection> sectionList=new ArrayList<>();
-                        for(HashMap h:arr){
-                            ArticleSection articleSection=new ArticleSection();
+                        ArrayList<ArticleSection> sectionList = new ArrayList<>();
+                        for (HashMap h : arr) {
+                            ArticleSection articleSection = new ArticleSection();
                             articleSection.setId(h.get("id").toString());
                             articleSection.setContent(h.get("content").toString());
                             sectionList.add(articleSection);
@@ -142,7 +151,7 @@ public class DashBoardActivity extends AppCompatActivity {
                         articles.add(articleModel);
                     }
                     Collections.sort(articles, (o1, o2) -> o2.getPostTime().compareTo(o1.getPostTime()));
-                    mArticlesAdapter=new ArticlesAdapter(DashBoardActivity.this,articles);
+                    mArticlesAdapter = new ArticlesAdapter(DashBoardActivity.this, articles);
                     mBinding.rvArticles.setLayoutManager(new LinearLayoutManager(DashBoardActivity.this));
                     mBinding.rvArticles.setAdapter(mArticlesAdapter);
                 } else {
