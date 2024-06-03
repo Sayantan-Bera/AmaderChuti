@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "Login successful!!", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
                                     startActivity(intent);
+                                    finish();
                                     SharedPreferences.Editor editor = getSharedPreferences("userdata", MODE_PRIVATE).edit();
                                     editor.putString("email", mBinding.emailEditText.getText().toString().trim());
                                     editor.apply();

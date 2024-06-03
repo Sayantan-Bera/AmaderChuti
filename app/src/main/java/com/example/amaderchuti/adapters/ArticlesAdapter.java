@@ -2,12 +2,14 @@ package com.example.amaderchuti.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,19 +58,19 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
         }
         if ("0".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Not Submitted");
-            holder.binding.tvStatus.setBackgroundColor(Color.parseColor("#f4a261"));
+            ViewCompat.setBackgroundTintList(holder.binding.tvStatus, ColorStateList.valueOf(Color.parseColor("#f4a261")));
         }
         else if ("1".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Submitted");
-            holder.binding.tvStatus.setBackgroundColor(Color.parseColor("#22577a"));
+            ViewCompat.setBackgroundTintList(holder.binding.tvStatus, ColorStateList.valueOf(Color.parseColor("#22577a")));
         }
         else if ("2".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Published");
-            holder.binding.tvStatus.setBackgroundColor(Color.parseColor("#2a9d8f"));
+            ViewCompat.setBackgroundTintList(holder.binding.tvStatus, ColorStateList.valueOf(Color.parseColor("#2a9d8f")));
         }
         else if ("3".equals(articleItem.getStatus())) {
             holder.binding.tvStatus.setText("Rejected");
-            holder.binding.tvStatus.setBackgroundColor(Color.parseColor("#e76f51"));
+            ViewCompat.setBackgroundTintList(holder.binding.tvStatus, ColorStateList.valueOf(Color.parseColor("#e76f51")));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

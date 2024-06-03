@@ -10,36 +10,35 @@
         android:background="@color/white"
         android:orientation="vertical"
         tools:context=".activities.WriteArticleActivity">
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Write Article"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:background="@color/darkBlue"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:layout_margin="10dp"
                 android:orientation="vertical">
+                <TextView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Write Article"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:background="@color/darkBlue"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editText"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -62,6 +61,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Title"
                         android:textColor="#34303C"
+                        android:layout_marginHorizontal="10dp"
                         android:textColorHint="#46C0C5C4"
                         android:textSize="12sp"
                         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
@@ -75,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:textColorHint="@color/black"
+                    android:layout_marginHorizontal="10dp"
                     app:boxBackgroundColor="@color/white"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -102,6 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="10dp"
                     android:background="@drawable/text_view_background"
                     android:weightSum="2">
 
@@ -136,6 +138,7 @@
                     android:layout_marginTop="5dp"
                     android:backgroundTint="@color/green"
                     android:text="Select cover image"
+                    android:layout_marginHorizontal="10dp"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/editText" />
@@ -160,6 +163,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="5dp"
                     android:background="@color/black" />
 
@@ -177,17 +181,20 @@
                     android:id="@+id/rvSections"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="5dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="5dp"
                     android:background="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
