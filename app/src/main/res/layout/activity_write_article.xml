@@ -133,16 +133,22 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <Button
+                <TextView
                     android:id="@+id/selectCoverImage"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="5dp"
-                    android:backgroundTint="@color/green"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_red"
                     android:text="Select cover image"
+                    android:drawablePadding="5dp"
+                    android:layout_gravity="center"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/brown"
+                    android:drawableStart="@drawable/add_photo_vector"
+                    android:padding="5dp"
+                    android:textSize="14sp"
+                    android:gravity="center"
                     app:layout_constraintTop_toBottomOf="@+id/editText" />
 
                 <TextView
@@ -150,6 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:layout_marginTop="5dp"
                     android:text="*Please give image in 16:9 ratio"
                     android:textColor="@color/red"
                     android:textSize="8sp" />
@@ -247,7 +254,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="50dp"
             android:src="@drawable/photo_vector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
