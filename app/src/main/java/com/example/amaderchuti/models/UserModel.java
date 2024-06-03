@@ -1,8 +1,27 @@
 package com.example.amaderchuti.models;
 
 public class UserModel {
- private String name;
- private String email;
+    private String name;
+    private String email;
+    private String type;
+    private String mobile;
+    private String location;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getName() {
         return name;
@@ -28,5 +47,4 @@ public class UserModel {
         this.type = type;
     }
 
-    private String type;
 }

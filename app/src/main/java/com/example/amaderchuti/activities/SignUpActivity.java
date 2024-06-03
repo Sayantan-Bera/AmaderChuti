@@ -87,6 +87,8 @@ public class SignUpActivity extends AppCompatActivity {
         UserModel user=new UserModel();
         user.setName(mBinding.nameEditText.getText().toString().trim());
         user.setEmail(mBinding.emailEditText.getText().toString().trim());
+        user.setMobile(mBinding.mobileEditText.getText().toString().trim());
+        user.setLocation(mBinding.locationEditText.getText().toString().trim());
         //1->author
         //2->admin
         user.setType("1");
@@ -113,7 +115,13 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (!CommonMethods.isNotEmpty(mBinding.emailEditText.getText().toString().trim())) {
             mBinding.emailEditText.setError("Please Enter email");
             isValid=false;
-        }else if (!CommonMethods.isNotEmpty(mBinding.passwordEditText.getText().toString().trim())) {
+        } else if (!CommonMethods.isNotEmpty(mBinding.mobileEditText.getText().toString().trim())) {
+            mBinding.emailEditText.setError("Please Enter mobile number");
+            isValid=false;
+        } else if (!CommonMethods.isNotEmpty(mBinding.locationEditText.getText().toString().trim())) {
+            mBinding.emailEditText.setError("Please Enter location");
+            isValid=false;
+        } else if (!CommonMethods.isNotEmpty(mBinding.passwordEditText.getText().toString().trim())) {
             mBinding.passwordEditText.setError("Please Enter password");
             isValid=false;
         }else if (!CommonMethods.isNotEmpty(mBinding.confirmPasswordEditText.getText().toString().trim())) {
