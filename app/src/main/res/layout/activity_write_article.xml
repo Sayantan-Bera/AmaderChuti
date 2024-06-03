@@ -14,36 +14,39 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/darkBlue"
+                    android:gravity="center"
                     android:padding="10dp"
                     android:text="Write Article"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:background="@color/darkBlue"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editText"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="5dp"
                     android:textColorHint="@color/black"
                     app:boxBackgroundColor="@color/white"
                     app:boxCornerRadiusBottomEnd="8dp"
@@ -61,7 +64,6 @@
                         android:layout_height="wrap_content"
                         android:hint="Title"
                         android:textColor="#34303C"
-                        android:layout_marginHorizontal="10dp"
                         android:textColorHint="#46C0C5C4"
                         android:textSize="12sp"
                         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
@@ -73,9 +75,9 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="5dp"
                     android:textColorHint="@color/black"
-                    android:layout_marginHorizontal="10dp"
                     app:boxBackgroundColor="@color/white"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -102,8 +104,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/text_view_background"
                     android:weightSum="2">
 
@@ -135,15 +137,16 @@
                     android:id="@+id/selectCoverImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="5dp"
                     android:backgroundTint="@color/green"
                     android:text="Select cover image"
-                    android:layout_marginHorizontal="10dp"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/editText" />
 
                 <TextView
+                    android:id="@+id/tvWarning"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -154,10 +157,9 @@
                 <ImageView
                     android:id="@+id/imageProduct"
                     android:layout_width="300dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="120dp"
                     android:layout_gravity="center"
-                    android:scaleType="fitXY"
+                    android:layout_marginTop="5dp"
                     android:visibility="gone" />
 
                 <View
@@ -198,29 +200,43 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <Button
+                    <TextView
                         android:id="@+id/btnSave"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/sq_c10"
                         android:backgroundTint="@color/orange"
+                        android:drawableStart="@drawable/save_vector"
+                        android:gravity="center"
+                        android:padding="8dp"
                         android:text="Save"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                    <Button
+                    <TextView
                         android:id="@+id/btnSubmit"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/sq_c10"
                         android:backgroundTint="@color/green"
+                        android:drawableStart="@drawable/submit_vector"
+                        android:gravity="center"
+                        android:padding="8dp"
                         android:text="Submit"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -38,7 +38,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class WriteArticleActivity extends AppCompatActivity {
@@ -168,7 +170,7 @@ public class WriteArticleActivity extends AppCompatActivity {
     }
 
     private void setUpEditData() {
-        if(!"0".equalsIgnoreCase(articleModelFromPreviousScreen.getStatus())){
+        if(!"0".equalsIgnoreCase(articleModelFromPreviousScreen.getStatus()) && !"3".equalsIgnoreCase(articleModelFromPreviousScreen.getStatus())){
             isEditable=false;
             mBinding.btnSave.setVisibility(View.GONE);
             mBinding.btnSubmit.setVisibility(View.GONE);
@@ -176,11 +178,12 @@ public class WriteArticleActivity extends AppCompatActivity {
             mBinding.titleEditText.setEnabled(false);
             mBinding.overviewEditText.setEnabled(false);
             mBinding.selectCoverImage.setVisibility(View.GONE);
+            mBinding.tvWarning.setVisibility(View.GONE);
             mBinding.spCategory.setEnabled(false);
             mBinding.btText.setVisibility(View.GONE);
             mBinding.btAddImage.setVisibility(View.GONE);
         }
-        mBinding.tvAuthor.setText(articleModelFromPreviousScreen.getAuthor());
+        mBinding.tvAuthor.setText("Author :"+articleModelFromPreviousScreen.getAuthor());
         mBinding.titleEditText.setText(articleModelFromPreviousScreen.getTitle());
         mBinding.overviewEditText.setText(articleModelFromPreviousScreen.getOverview());
         mBinding.imageProduct.setVisibility(View.VISIBLE);
@@ -244,6 +247,10 @@ public class WriteArticleActivity extends AppCompatActivity {
         articleModel.setAuthorEmail(userEmail);
         articleModel.setCategory(mBinding.spCategory.getSelectedItem().toString());
         articleModel.setOverview(mBinding.overviewEditText.getText().toString().trim());
+        articleModel.setPostTime(System.currentTimeMillis()/1000+"");
+        SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
+        String date = ft.format(new Date());
+        articleModel.setDate(date);
         if(isSubmit){
             articleModel.setStatus("1");//1 means submitted
         }else {
@@ -276,10 +283,14 @@ public class WriteArticleActivity extends AppCompatActivity {
         articleModel.setAuthorEmail(articleModelFromPreviousScreen.getAuthorEmail());
         articleModel.setCategory(mBinding.spCategory.getSelectedItem().toString());
         articleModel.setOverview(mBinding.overviewEditText.getText().toString().trim());
+        articleModel.setPostTime(System.currentTimeMillis()/1000+"");
+        SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
+        String date = ft.format(new Date());
+        articleModel.setDate(date);
         if(isSubmit){
             articleModel.setStatus("1");//1 means submitted
         }else {
-            articleModel.setStatus(articleModelFromPreviousScreen.getStatus());
+            articleModel.setStatus("3".equalsIgnoreCase(articleModelFromPreviousScreen.getStatus())?"0":articleModelFromPreviousScreen.getStatus());
         }
         articleModel.setIsEditable(articleModelFromPreviousScreen.getIsEditable());
         articleModel.setImageUrl(coverImageUrl);

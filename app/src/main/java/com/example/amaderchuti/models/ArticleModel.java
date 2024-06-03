@@ -13,6 +13,9 @@ public class ArticleModel implements Serializable {
     private String isEditorsChoice;
     private String isEditable;
     private String authorEmail;
+    private String postTime;
+
+    private String date;
 
     private ArrayList<ArticleSection> sectionList;
     public ArrayList<ArticleSection> getSectionList() {
@@ -23,6 +26,20 @@ public class ArticleModel implements Serializable {
         this.sectionList = sectionList;
     }
 
+    public String getPostTime() {
+        return postTime;
+    }
+
+    public void setPostTime(String postTime) {
+        this.postTime = postTime;
+    }
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
     public String getTitle() {
         return title;
     }

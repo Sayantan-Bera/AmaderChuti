@@ -32,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class DashBoardActivity extends AppCompatActivity {
@@ -115,7 +116,6 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        System.out.println("%%%%"+document.getId());
                         ArticleModelWithDocId articleModel = new ArticleModelWithDocId();
                         articleModel.setDocId(document.getId());
                         articleModel.setAuthor(document.getData().get("author").toString());
@@ -126,7 +126,9 @@ public class DashBoardActivity extends AppCompatActivity {
                         articleModel.setStatus(document.getData().get("status").toString());
                         articleModel.setIsEditable(document.getData().get("isEditable").toString());
                         articleModel.setImageUrl(document.getData().get("imageUrl").toString());
+                        articleModel.setPostTime(document.getData().get("postTime").toString());
                         articleModel.setIsEditorsChoice(document.getData().get("isEditorsChoice").toString());
+                        articleModel.setDate(document.getData().get("date").toString());
                         ArrayList<HashMap> arr=new ArrayList<>();
                         arr.addAll((Collection<? extends HashMap>) document.get("sectionList"));
                         ArrayList<ArticleSection> sectionList=new ArrayList<>();
@@ -139,6 +141,7 @@ public class DashBoardActivity extends AppCompatActivity {
                         articleModel.setSectionList(sectionList);
                         articles.add(articleModel);
                     }
+                    Collections.sort(articles, (o1, o2) -> o2.getPostTime().compareTo(o1.getPostTime()));
                     mArticlesAdapter=new ArticlesAdapter(DashBoardActivity.this,articles);
                     mBinding.rvArticles.setLayoutManager(new LinearLayoutManager(DashBoardActivity.this));
                     mBinding.rvArticles.setAdapter(mArticlesAdapter);

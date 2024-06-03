@@ -14,10 +14,19 @@ public class ArticleModelWithDocId  implements Serializable {
     private String isEditorsChoice;
     private String isEditable;
     private String authorEmail;
+    private String postTime;
+    private String date;
 
     private ArrayList<ArticleSection> sectionList;
     public ArrayList<ArticleSection> getSectionList() {
         return sectionList;
+    }
+    public String getPostTime() {
+        return postTime;
+    }
+
+    public void setPostTime(String postTime) {
+        this.postTime = postTime;
     }
 
     public void setSectionList(ArrayList<ArticleSection> sectionList) {
@@ -31,6 +40,14 @@ public class ArticleModelWithDocId  implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
 
     public String getOverview() {
         return overview;
