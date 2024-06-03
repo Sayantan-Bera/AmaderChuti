@@ -221,6 +221,9 @@ public class WriteArticleActivity extends AppCompatActivity {
         } else if (coverImageUrl == null) {
             Toast.makeText(this, "Please add cover image", Toast.LENGTH_LONG).show();
             isValid = false;
+        } else if (sectionList.size()==0) {
+            Toast.makeText(this, "Please add body", Toast.LENGTH_LONG).show();
+            isValid = false;
         }
         return isValid;
     }
